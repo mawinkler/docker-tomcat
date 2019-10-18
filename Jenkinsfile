@@ -78,7 +78,7 @@ node('pod-dind') {
       }
       stage('Check Image (Registry') {
         smartcheckScan([
-          imageName: "${K8S_REGISTRY}/docker-tomcat-tutorial",
+          imageName: "${K8S_REGISTRY}/${REPOSITORY}",
           smartcheckHost: "${DSSC_SERVICE}",
           smartcheckCredentialsId: "smartcheck-auth",
           imagePullAuth: JsonOutput.toJson([
@@ -90,7 +90,7 @@ node('pod-dind') {
       stage('Push Image to Registry') {
         script {
           docker.withRegistry('', 'docker-hub') {
-            dbuild.push() //('$BUILD_NUMBER')
+            dbuild.push()
           }
         }
       }
