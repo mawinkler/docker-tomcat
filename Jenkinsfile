@@ -19,6 +19,25 @@ node('pod-dind') {
       }
       stage('Test') {
         echo 'All functional tests passed'
+        test = JsonOutput.toJson([
+          malware: 0,
+          vulnerabilities: [
+            defcon1: 0,
+            critical: 0,
+            high: 1,
+          ],
+          contents: [
+            defcon1: 0,
+            critical: 0,
+            high: 1,
+          ],
+          checklists: [
+            defcon1: 0,
+            critical: 0,
+            high: 0,
+          ],
+        ]).toString()
+        echo "${test}"
       }
       stage('Check Image (pre-Registry') {
         smartcheckScan([
